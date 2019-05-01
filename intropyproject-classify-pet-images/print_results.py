@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/print_results.py
 #                                                                             
-# PROGRAMMER: 
-# DATE CREATED:
+# PROGRAMMER: Yiannis Papadimitriou
+# DATE CREATED:  28/04/2019
 # REVISED DATE: 
 # PURPOSE: Create a function print_results that prints the results statistics
 #          from the results statistics dictionary (results_stats_dic). It 
@@ -62,5 +62,11 @@ def print_results(results_dic, results_stats_dic, model,
     Returns:
            None - simply printing results.
     """    
-    None
+    print("\n\n*** Results Summary for CNN Model Architecture", model.upper(), 
+          "***")
+    print("{:20}: {:3d}".format('N Images', results_stats_dic['n_images']))
+    print("{:20}: {:3d}".format('N Dog Images', results_stats_dic['n_dogs_img']))
+    print("{:20}: {:3d}".format('N Not-Dog Images', results_stats_dic['n_notdogs_img']))
+    [print("{:20}: {:4.1f} %".format(k.replace('_',' ').title(), v )) for k,v in results_stats_dic.items() if k.startswith('pct') ]
+    
                 

@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/classify_images.py
 #                                                                             
-# PROGRAMMER: 
-# DATE CREATED:                                 
+# PROGRAMMER: Yiannis Papadimitriou
+# DATE CREATED: 24/04/2019                               
 # REVISED DATE: 
 # PURPOSE: Create a function classify_images that uses the classifier function 
 #          to create the classifier labels and then compares the classifier 
@@ -31,9 +31,9 @@ from classifier import classifier
 # 
 def classify_images(images_dir, results_dic, model):
     """
-    Creates classifier labels with classifier function, compares pet labels to 
+    Creates classifier labels with *classifier function, compares pet labels to 
     the classifier labels, and adds the classifier label and the comparison of 
-    the labels to the results dictionary using the extend function. Be sure to
+    the labels to the results dictionary using the *extend function. Be sure to
     format the classifier labels so that they will match your pet image labels.
     The format will include putting the classifier labels in all lower case 
     letters and strip the leading and trailing whitespace characters from them.
@@ -65,4 +65,18 @@ def classify_images(images_dir, results_dic, model):
      Returns:
            None - results_dic is mutable data type so no return needed.         
     """
-    None 
+    for key in results_dic:
+      test_image = images_dir + '\\' + key
+      model_labels = classifier(test_image, model)
+      model_labels_list = list(model_labels.lower().split(','))
+      model_labels_list = [x.strip() for x in model_labels_list]
+     
+      if results_dic[key] in model_labels_list:
+         match = 1
+      else:
+         match = 0
+      
+      upd_dict={key:[results_dic[key], model_labels, match]}
+      results_dic.update(upd_dict)
+
+     

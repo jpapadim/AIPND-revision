@@ -16,7 +16,7 @@
 
 # Functions below defined to help with "Checking your code", specifically
 # running these functions with the appropriate input arguments within the
-# main() funtion will print out what's needed for "Checking your code"
+# main() function will print out what's needed for "Checking your code"
 #
 def check_command_line_arguments(in_arg):
     """
@@ -76,6 +76,7 @@ def check_creating_pet_image_labels(results_dic):
             # If past first 10 (or fewer) labels the breaks out of loop
             else:
                 break
+        #print(results_dic.items())
 
 
 def check_classifying_images(results_dic):
@@ -111,10 +112,10 @@ def check_classifying_images(results_dic):
         # Prints all Matches first
         print("\n     MATCH:")
         for key in results_dic:
-
+            
             # Prints only if a Match Index 2 == 1
             if results_dic[key][2] == 1:
-
+                
                 # Increments Match counter
                 n_match += 1
                 print("\n{:>30}: \nReal: {:>26}   Classifier: {:>30}".format(key, 
@@ -293,9 +294,18 @@ def check_calculating_results(results_dic, results_stats_dic):
                     
         # calculates statistics based upon counters from above
         n_pet_notd = n_images - n_pet_dog
-        pct_corr_dog = ( n_class_cdog / n_pet_dog )*100
-        pct_corr_notdog = ( n_class_cnotd / n_pet_notd )*100
-        pct_corr_breed = ( n_match_breed / n_pet_dog )*100
+        if n_pet_dog > 0 :
+           pct_corr_dog = ( n_class_cdog / n_pet_dog )*100
+           pct_corr_breed = ( n_match_breed / n_pet_dog )*100
+        else:
+           pct_corr_dog = 0.0
+           pct_corr_breed = 0.0
+        
+        if n_pet_notd > 0:
+           pct_corr_notdog = ( n_class_cnotd / n_pet_notd )*100
+        else:
+           pct_corr_notdog = 0.0 
+        
     
         # prints calculated statistics
         print("\n ** Statistics from calculates_results_stats() function:")

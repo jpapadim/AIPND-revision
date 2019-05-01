@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/adjust_results4_isadog.py
 #                                                                             
-# PROGRAMMER: 
-# DATE CREATED:                                 
+# PROGRAMMER:     Yannis Papadimitriou
+# DATE CREATED:   26/04/2019                             
 # REVISED DATE: 
 # PURPOSE: Create a function adjust_results4_isadog that adjusts the results 
 #          dictionary to indicate whether or not the pet image label is of-a-dog, 
@@ -67,4 +67,44 @@ def adjust_results4_isadog(results_dic, dogfile):
     Returns:
            None - results_dic is mutable data type so no return needed.
     """           
-    None
+    dognames_dic = dict()
+    with open(dogfile, 'r') as infile:
+
+      for line in infile:
+          dognames_list = list(line.strip('\n').split(','))
+          
+          for dogname in dognames_list:
+            dogname = dogname.lower().strip()
+           
+            if dogname not in dognames_dic:
+               dognames_dic.update({dogname:1}) 
+
+    #print('dognames_dic: ', dognames_dic.items())
+
+    for key in results_dic:
+      flag_dog = 0
+      classifier_labels = list(results_dic[key][1].lower().split(','))
+     
+      for label in classifier_labels:
+           # check for classifier labels in dognames
+           if label in dognames_dic.keys():
+              flag_dog = 1
+              
+      # check for image label in dognames
+      if results_dic[key][0] in dognames_dic.keys():
+
+          if flag_dog == 1:
+            results_dic[key].extend((1, 1))
+          else:
+            results_dic[key].extend((1, 0))
+    
+      else:
+        # for classifier label in dognames when image label is not
+        if flag_dog == 1:
+           results_dic[key].extend((0, 1))
+        # no image or classifier label in dognames
+        else:
+          results_dic[key].extend((0, 0))
+      
+
+    
